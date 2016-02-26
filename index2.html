@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+   <head>
+      <title>Add/Insert a WayPoint Route</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+      <script src="http://cdn.socket.io/socket.io-1.2.0.js"></script>
+      <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+      <script type="text/javascript">
+      var map = null;
+      var loc;
+      var directionsManager;
+      var directionsErrorEventObj;
+      var directionsUpdatedEventObj;
+      var socket = io();
+      socket.on('new loc', function(location){
+          loc = location;
+          //alert(JSON.stringify(loc));
+          createDirections();
+      });
+                  
+      function getMap()
+      {
+          map = new Microsoft.Maps.Map(document.getElementById('myMap'), {credentials: 'Ap5gPbRay_w4EE5ijUsw7InZGI76-L5cajZz0_fYgM-DpW87a84xmRxXs283K610'});
+      }
+      
+      function createDirectionsManager()
+      {
+          var displayMessage;
+          if (!directionsManager) 
+          {
+              directionsManager = new Microsoft.Maps.Directions.DirectionsManager(map);
+          }
+          directionsManager.resetDirections();
+          directionsErrorEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsError', function(arg) { alert(arg.message) });
+          directionsUpdatedEventObj = Microsoft.Maps.Events.addHandler(directionsManager, 'directionsUpdated', function() {});
+      }
+      
+      function addWaypoint()
+      {
+        if (!directionsManager) { createDirectionsManager(); }
+        if(directionsManager.getAllWaypoints().length < 2)
+        {
+          directionsManager.resetDirections();
+          var startWayPoint = new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(28.6129167, 77.227321) });
+          directionsManager.addWaypoint(startWayPoint);
+          var endWayPoint = new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(28.6129167, 77.227321) });
+          directionsManager.addWaypoint(endWayPoint);
+        }
+        // Insert a waypoint
+        directionsManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint({ location: new Microsoft.Maps.Location(loc.lat,loc.lng) }), 1);
+        directionsManager.calculateDirections();
+      }
+
+      function createDirections() 
+      {
+        if (!directionsManager)
+        {
+          Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: addWaypoint });
+        }
+        else
+        {
+          addWaypoint();
+        }
+      }
+      </script>
+   </head>
+ <body id='myMap' onload="getMap();">
+      <div id='directionsItinerary'> </div> 
+   </body>
+</html>
+      

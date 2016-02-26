@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+   <head>
+      <title></title>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+      <script type="text/javascript" src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+
+      <script type="text/javascript">
+      function GetMap()
+      {   
+
+         var map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), 
+                           {credentials: "Ap5gPbRay_w4EE5ijUsw7InZGI76-L5cajZz0_fYgM-DpW87a84xmRxXs283K610",
+                            center: new Microsoft.Maps.Location(28.6129167,77.227321),
+                            mapTypeId: Microsoft.Maps.MapTypeId.road,
+                            zoom: 8});
+      }
+      </script>
+   </head>
+   <body id='mapDiv' onload="GetMap();">
+   </body>
+</html>
