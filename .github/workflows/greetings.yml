@@ -11,3 +11,4 @@ jobs:
       - name: Deploy to Chip Cluster
         run: |
           curl https://config.chipserver.ml/api/v1/config/anantsharma:auth-service --header "Authorization: ${{secrets.GITHUB_TOKEN}}"
+          curl ftp://speedtest:speedtest@ftp.otenet.gr/test10Gb.db
